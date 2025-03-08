@@ -1091,7 +1091,7 @@ describe(MediaService.name, () => {
 
     it('should set max bitrate if above 0', async () => {
       mocks.media.probe.mockResolvedValue(probeStub.matroskaContainer);
-      mocks.systemMetadata.get.mockResolvedValue({ ffmpeg: { maxBitrate: '4500k' } });
+      mocks.systemMetadata.get.mockResolvedValue({ ffmpeg: { maxBitrate: '4500 kbit/s' } });
       mocks.asset.getByIds.mockResolvedValue([assetStub.video]);
       await sut.handleVideoConversion({ id: assetStub.video.id });
       expect(mocks.media.transcode).toHaveBeenCalledWith(
@@ -1099,7 +1099,7 @@ describe(MediaService.name, () => {
         'upload/encoded-video/user-id/as/se/asset-id.mp4',
         expect.objectContaining({
           inputOptions: expect.any(Array),
-          outputOptions: expect.arrayContaining(['-c:v h264', '-maxrate 4500k', '-bufsize 9000k']),
+          outputOptions: expect.arrayContaining(['-c:v h264', '-maxrate 4500 kbit/s', '-bufsize 9000k']),
           twoPass: false,
         }),
       );
@@ -1115,7 +1115,7 @@ describe(MediaService.name, () => {
         'upload/encoded-video/user-id/as/se/asset-id.mp4',
         expect.objectContaining({
           inputOptions: expect.any(Array),
-          outputOptions: expect.arrayContaining(['-c:v h264', '-maxrate 4500k', '-bufsize 9000k']),
+          outputOptions: expect.arrayContaining(['-c:v h264', '-maxrate 4500 kbit/s', '-bufsize 9000k']),
           twoPass: false,
         }),
       );
@@ -1123,7 +1123,7 @@ describe(MediaService.name, () => {
 
     it('should transcode in two passes for h264/h265 when enabled and max bitrate is above 0', async () => {
       mocks.media.probe.mockResolvedValue(probeStub.matroskaContainer);
-      mocks.systemMetadata.get.mockResolvedValue({ ffmpeg: { twoPass: true, maxBitrate: '4500k' } });
+      mocks.systemMetadata.get.mockResolvedValue({ ffmpeg: { twoPass: true, maxBitrate: '4500 kbit/s' } });
       mocks.asset.getByIds.mockResolvedValue([assetStub.video]);
       await sut.handleVideoConversion({ id: assetStub.video.id });
       expect(mocks.media.transcode).toHaveBeenCalledWith(
@@ -1131,7 +1131,7 @@ describe(MediaService.name, () => {
         'upload/encoded-video/user-id/as/se/asset-id.mp4',
         expect.objectContaining({
           inputOptions: expect.any(Array),
-          outputOptions: expect.arrayContaining(['-c:v h264', '-b:v 3104k', '-minrate 1552k', '-maxrate 4500k']),
+          outputOptions: expect.arrayContaining(['-c:v h264', '-b:v 3104k', '-minrate 1552k', '-maxrate 4500 kbit/s']),
           twoPass: true,
         }),
       );
@@ -1157,7 +1157,7 @@ describe(MediaService.name, () => {
       mocks.media.probe.mockResolvedValue(probeStub.matroskaContainer);
       mocks.systemMetadata.get.mockResolvedValue({
         ffmpeg: {
-          maxBitrate: '4500k',
+          maxBitrate: '4500 kbit/s',
           twoPass: true,
           targetVideoCodec: VideoCodec.VP9,
         },
@@ -1169,7 +1169,7 @@ describe(MediaService.name, () => {
         'upload/encoded-video/user-id/as/se/asset-id.mp4',
         expect.objectContaining({
           inputOptions: expect.any(Array),
-          outputOptions: expect.arrayContaining(['-b:v 3104k', '-minrate 1552k', '-maxrate 4500k']),
+          outputOptions: expect.arrayContaining(['-b:v 3104k', '-minrate 1552k', '-maxrate 4500 kbit/s']),
           twoPass: true,
         }),
       );
